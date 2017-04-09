@@ -2,14 +2,19 @@ class Game {
   Player P;
   ArrayList<Bullet> pb, eb;
   ArrayList<Rock> r;
+  ArrayList<Invader> I;
 
   Game() {
     P = new Player();
     pb = new ArrayList<Bullet>();
     eb = new ArrayList<Bullet>();
     r = new ArrayList<Rock>();
+    I = new ArrayList<Invader>();
     for (int i = 0; i < width/24/scale - 1; i++) {
       r.add(new Rock(3*8*i + 32));
+    }
+    for (int i = 0; i < 8*5; i++) {
+      I.add(new Invader(i%8, i/8));
     }
   }
 
@@ -18,10 +23,22 @@ class Game {
     P.draw();
     for (Bullet b : eb) b.draw();
     for (Rock rock : r) rock.draw();
+    for (Invader i : I) i.draw();
   }
 
   void update() {
     P.update();
+    for (int i = 0; i < I.size(); i++) {
+      for (int j = 0; j < pb.size(); j++) {
+        if (I.get(i).hit(pb.get(j))) {
+          I.remove(I.get(i));
+          pb.remove(pb.get(j));
+          i--;
+          break;
+        }
+      }
+    }
+    for (Invader i : I) i.update();
     for (int i = 0; i < pb.size(); i++) {
       Bullet b = pb.get(i);
       b.update();
