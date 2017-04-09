@@ -16,7 +16,7 @@ void draw() {
     textSize(50);
     textAlign(CENTER, CENTER);
     fill(random(255), 255, 255);
-    text("GAME OVER\npress 'r'", width/2, height/2);
+    text("GAME OVER\nYour score:" + nf(G.score, 5, 0) + "\npress 'r'", width/2, height/2);
   }
   if (G.P.hp > 0) {
     background(0);

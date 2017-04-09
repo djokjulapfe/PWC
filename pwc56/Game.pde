@@ -3,6 +3,7 @@ class Game {
   ArrayList<Bullet> pb, eb;
   ArrayList<Rock> r;
   ArrayList<Invader> I;
+  int score;
 
   Game() {
     P = new Player();
@@ -28,6 +29,9 @@ class Game {
     for (int i = 0; i < P.hp; i++) {
       image(hp, 2 + i*8, 2);
     }
+    textAlign(RIGHT, TOP);
+    textSize(5);
+    text("SCORE: " + nf(G.score, 6, 0), width/scale, 0);
   }
 
   void update() {
@@ -38,11 +42,20 @@ class Game {
           I.remove(I.get(i));
           pb.remove(pb.get(j));
           i--;
+          score += 1000 - frameCount;
           break;
         }
       }
     }
-    for (Invader i : I) i.update();
+    float miny = 0;
+    for (Invader i : I) {
+      i.update();
+      if (i.pos.y > miny) miny = i.pos.y; 
+    }
+    if (miny > 88) {
+      P.hp = 0;
+      return;
+    }
     if (random(1) < 0.1) I.get((int)random(I.size())).shoot(); 
     for (int i = 0; i < pb.size(); i++) {
       Bullet b = pb.get(i);
@@ -66,6 +79,7 @@ class Game {
       if (b.pos.x + 3 > P.x + width/2/scale && b.pos.x + 3 < P.x + 6 + width/2/scale && b.pos.y > height/scale - 5) {
         eb.remove(b);
         P.hp--;
+        if(P.hp == 0) return;
         i--;
         continue;
       }
@@ -78,6 +92,10 @@ class Game {
           break;
         }
       }
+    }
+    if (I.size() == 0) {
+      P.hp = 0;
+      return;
     }
   }
 
