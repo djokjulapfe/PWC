@@ -1,10 +1,11 @@
 class Player {
   int x;
-  int health;
+  int hp;
   int reload;
   
   Player() {
     x = 0;
+    hp = 3;
   }
   
   void draw() {

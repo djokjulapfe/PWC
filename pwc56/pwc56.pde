@@ -7,19 +7,29 @@ void setup() {
   frameRate(5);
   scale = 5;
   loadGraphics();
-  
+
   G = new Game();
 }
 
 void draw() {
-  background(0);
-  scale(scale);
-  image(light_img, -8, height/scale - 32 + 8);
- 
-  G.update();
-  G.draw();
+  if (G.P.hp == 0) {
+    textSize(50);
+    textAlign(CENTER, CENTER);
+    fill(random(255), 255, 255);
+    text("GAME OVER\npress 'r'", width/2, height/2);
+  }
+  if (G.P.hp > 0) {
+    background(0);
+    scale(scale);
+    G.update();
+    G.draw();
+  }
 }
 
 void keyPressed() {
-  G.handleInput(key, keyCode);
+  if (G.P.hp > 0) {
+    G.handleInput(key, keyCode);
+  } else if (key == 'r') {
+    G = new Game();
+  }
 }

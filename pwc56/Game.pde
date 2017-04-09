@@ -24,6 +24,10 @@ class Game {
     for (Bullet b : eb) b.draw();
     for (Rock rock : r) rock.draw();
     for (Invader i : I) i.draw();
+    PImage hp = createHearth();
+    for (int i = 0; i < P.hp; i++) {
+      image(hp, 2 + i*8, 2);
+    }
   }
 
   void update() {
@@ -39,6 +43,7 @@ class Game {
       }
     }
     for (Invader i : I) i.update();
+    if (random(1) < 0.1) I.get((int)random(I.size())).shoot(); 
     for (int i = 0; i < pb.size(); i++) {
       Bullet b = pb.get(i);
       b.update();
@@ -50,8 +55,29 @@ class Game {
         }
       }
     }
-    for (Bullet b : eb) {
+    for (int i = 0; i < eb.size(); i++) {
+      Bullet b = eb.get(i);
       b.update();
+      if (b.pos.y > height/scale) {
+        eb.remove(b);
+        i--;
+        continue;
+      }
+      if (b.pos.x + 3 > P.x + width/2/scale && b.pos.x + 3 < P.x + 6 + width/2/scale && b.pos.y > height/scale - 5) {
+        eb.remove(b);
+        P.hp--;
+        i--;
+        continue;
+      }
+      for (int j = 0; j < r.size(); j++) {
+        Rock rr = r.get(j);
+        if (b.pos.x + 3 > rr.x - 2 && b.pos.x + 3 < rr.x + 8 &&
+          b.pos.y > height/scale - 3*8 && b.pos.y < height/scale - 3*8 + 10) {
+          if (r.get(j).removePixels())r.remove(j);
+          eb.remove(b);
+          break;
+        }
+      }
     }
   }
 
@@ -61,7 +87,7 @@ class Game {
       if (keyCode == RIGHT) P.x +=8;
     }
     if (key == ' ' && P.reload < 0) {
-      pb.add(new Bullet(new PVector(P.x + width/2/scale, height/scale)));
+      pb.add(new Bullet(new PVector(P.x + width/2/scale, height/scale), 1));
       P.reload = 5;
     }
   }

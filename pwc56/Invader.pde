@@ -28,4 +28,8 @@ class Invader {
         return true;
     else return false;
   }
+  
+  void shoot() {
+    G.eb.add(new Bullet(pos.copy(), -1));
+  }
 }

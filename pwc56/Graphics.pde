@@ -22,7 +22,6 @@ PImage createBulletGraphics(int c) {
     if(abs(r) > 7) r = 0;
     ret.pixels[abs(r)*8 + 3] = color(brightness(ret.pixels[abs(r)*8 + 3]) + 50);
   }
-  println();
   ret.updatePixels();
   for (int i = 0; i < ret.pixels.length; i++) {
     ret.pixels[i] = color(c, 255, 255, brightness(ret.pixels[i]));
@@ -82,5 +81,26 @@ PImage createInvadorGraphics(int kmax) {
   colorMode(HSB);
   color c = color(random(255), 255, 255);
   for (int i = 0; i < ret.pixels.length; i++) if (ret.pixels[i] == color(255)) ret.pixels[i] = c;
+  return ret;
+}
+
+PImage createHearth() {
+  PImage ret = createImage(5, 4, ARGB);
+  color red = color(0, 255, 255);
+  ret.loadPixels();
+  ret.pixels[0] = red;
+  ret.pixels[1] = red;
+  ret.pixels[3] = red;
+  ret.pixels[4] = red;
+  ret.pixels[5] = red;
+  ret.pixels[6] = red;
+  ret.pixels[7] = red;
+  ret.pixels[8] = red;
+  ret.pixels[9] = red;
+  ret.pixels[11] = red;
+  ret.pixels[12] = red;
+  ret.pixels[13] = red;
+  ret.pixels[17] = red;
+  ret.updatePixels();
   return ret;
 }
