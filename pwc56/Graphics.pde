@@ -1,6 +1,6 @@
 PImage[] invader_img;
 PImage player_img;
-PImage light_img;
+PImage stars_img;
 
 void loadGraphics() {
   invader_img = new PImage[4];
@@ -8,7 +8,7 @@ void loadGraphics() {
     invader_img[i] = createInvadorGraphics(16);
   }
   player_img = createPlayerGraphics();
-  light_img = createLightGraphics();
+  stars_img = createStarsGraphics();
 }
 
 PImage createBulletGraphics(int c) {
@@ -26,24 +26,6 @@ PImage createBulletGraphics(int c) {
   for (int i = 0; i < ret.pixels.length; i++) {
     ret.pixels[i] = color(c, 255, 255, brightness(ret.pixels[i]));
   }
-  return ret;
-}
-
-PImage createLightGraphics() {
-  PImage ret = createImage(32, 32, ARGB);
-  ret.loadPixels();
-  for (int i = 0; i < 5*32*32; i++) {
-    int x = 16 + (int)(randomGaussian()*3);
-    int y = 16 + (int)(randomGaussian()*3);
-    while (x < 0 || x >= 32) x = (int)randomGaussian()*32;
-    while (y < 0 || y >= 32) y = (int)randomGaussian()*32;
-    int r = x + y * 32;
-    ret.pixels[r] = color(random(255), 50, brightness(ret.pixels[r]) + 2);
-  }
-  for (int i = 0; i < ret.pixels.length; i++) {
-    ret.pixels[i] = color(random(255), 50, 255, brightness(ret.pixels[i]));
-  }
-  ret.updatePixels();
   return ret;
 }
 
@@ -79,8 +61,8 @@ PImage createInvadorGraphics(int kmax) {
   }
   ret.updatePixels();
   colorMode(HSB);
-  color c = color(random(255), 255, 255);
-  for (int i = 0; i < ret.pixels.length; i++) if (ret.pixels[i] == color(255)) ret.pixels[i] = c;
+  int hue = (int) random(255);
+  for (int i = 0; i < ret.pixels.length; i++) if (ret.pixels[i] == color(255)) ret.pixels[i] = color(hue, 255 - random(50), 255 - random(50));
   return ret;
 }
 
@@ -88,19 +70,33 @@ PImage createHearth() {
   PImage ret = createImage(5, 4, ARGB);
   color red = color(0, 255, 255);
   ret.loadPixels();
-  ret.pixels[0] = red;
-  ret.pixels[1] = red;
-  ret.pixels[3] = red;
-  ret.pixels[4] = red;
-  ret.pixels[5] = red;
-  ret.pixels[6] = red;
-  ret.pixels[7] = red;
-  ret.pixels[8] = red;
-  ret.pixels[9] = red;
-  ret.pixels[11] = red;
-  ret.pixels[12] = red;
-  ret.pixels[13] = red;
-  ret.pixels[17] = red;
+  ret.pixels[0] = redc();
+  ret.pixels[1] = redc();
+  ret.pixels[3] = redc();
+  ret.pixels[4] = redc();
+  ret.pixels[5] = redc();
+  ret.pixels[6] = redc();
+  ret.pixels[7] = redc();
+  ret.pixels[8] = redc();
+  ret.pixels[9] = redc();
+  ret.pixels[11] = redc();
+  ret.pixels[12] = redc();
+  ret.pixels[13] = redc();
+  ret.pixels[17] = redc();
   ret.updatePixels();
   return ret;
+}
+
+PImage createStarsGraphics() {
+  PImage ret = createImage(width/scale, height/scale, ARGB);
+  ret.loadPixels();
+  for(int i = 0; i < 100; i++) {
+    ret.pixels[(int)random(ret.pixels.length)] = color(255);
+  }
+  ret.updatePixels();
+  return ret;
+}
+
+color redc() {
+  return color(0, 255 - random(50), 255 - random(50));
 }

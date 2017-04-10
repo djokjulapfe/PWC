@@ -4,6 +4,7 @@ class Game {
   ArrayList<Rock> r;
   ArrayList<Invader> I;
   int score;
+  PImage[] hp_img;
 
   Game() {
     P = new Player();
@@ -17,17 +18,23 @@ class Game {
     for (int i = 0; i < 8*5; i++) {
       I.add(new Invader(i%8, i/8));
     }
+    
+    hp_img = new PImage[3];
+    hp_img[0] = createHearth();
+    hp_img[1] = createHearth();
+    hp_img[2] = createHearth();
   }
 
   void draw() {
+    image(stars_img, frameCount%(width/scale), 0);
+    image(stars_img, frameCount%(width/scale) - width/scale, 0);
     for (Bullet b : pb) b.draw();
     P.draw();
     for (Bullet b : eb) b.draw();
     for (Rock rock : r) rock.draw();
     for (Invader i : I) i.draw();
-    PImage hp = createHearth();
     for (int i = 0; i < P.hp; i++) {
-      image(hp, 2 + i*8, 2);
+      image(hp_img[i], 2 + i*8, 2);
     }
     textAlign(RIGHT, TOP);
     textSize(5);
