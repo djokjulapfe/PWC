@@ -5,6 +5,7 @@ class Game {
   ArrayList<Invader> I;
   int score;
   PImage[] hp_img;
+  int time;
 
   Game() {
     P = new Player();
@@ -23,6 +24,7 @@ class Game {
     hp_img[0] = createHearth();
     hp_img[1] = createHearth();
     hp_img[2] = createHearth();
+    time = 0;
   }
 
   void draw() {
@@ -42,6 +44,8 @@ class Game {
   }
 
   void update() {
+    if (P.hp <= 0) return;
+    time++;
     P.update();
     for (int i = 0; i < I.size(); i++) {
       for (int j = 0; j < pb.size(); j++) {
@@ -49,7 +53,7 @@ class Game {
           I.remove(I.get(i));
           pb.remove(pb.get(j));
           i--;
-          score += 1000 - frameCount;
+          score += 1000 - time;
           break;
         }
       }
@@ -63,7 +67,7 @@ class Game {
       P.hp = 0;
       return;
     }
-    if (random(1) < 0.1) I.get((int)random(I.size())).shoot(); 
+    if (random(1) < 0.1) I.get((int)random(I.size())).shoot(this); 
     for (int i = 0; i < pb.size(); i++) {
       Bullet b = pb.get(i);
       b.update();

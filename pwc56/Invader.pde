@@ -29,7 +29,7 @@ class Invader {
     else return false;
   }
   
-  void shoot() {
-    G.eb.add(new Bullet(pos.copy(), -1));
+  void shoot(Game g) {
+    g.eb.add(new Bullet(pos.copy(), -1));
   }
 }
