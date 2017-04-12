@@ -17,10 +17,12 @@ void setup() {
 
 void draw() {
   if (mousePressed) {
-    if (mouseButton == LEFT)
-      T.block[mouseX/scale][mouseY/scale] = true;
-    else
-      T.block[mouseX/scale][mouseY/scale] = false;
+    if (mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height) {
+      if (mouseButton == LEFT)
+        T.block[mouseX/scale][mouseY/scale] = true;
+      else
+        T.block[mouseX/scale][mouseY/scale] = false;
+    }
   }
   for (int i = 0; i < 1; i++) {
     T.update();
