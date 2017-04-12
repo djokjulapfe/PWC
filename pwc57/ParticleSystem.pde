@@ -13,6 +13,9 @@ class ParticleSystem {
   }
   
   void update() {
+    for (int i = 0; i < P.size(); i++) {
+      if (P.get(i).p.y < 0) P.remove(i);
+    }
     for (Particle p : P) {
       p.update();
       p.applyForce(new PVector(random(0.2)-0.1, -random(0.3)));

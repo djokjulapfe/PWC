@@ -5,7 +5,7 @@ Terrain T;
 
 void setup() {
   size(800, 600);
-  scale = 5;
+  scale = 10;
   Width = width/scale;
   Height = height/scale;
   noSmooth();
